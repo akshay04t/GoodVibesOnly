@@ -956,6 +956,8 @@ footer {
 
 /* Responsive */
 @media (max-width: 900px) {
+    section { padding: 80px 5%; }
+    .section-header h2 { font-size: 2.5rem; }
     .brand-name { font-size: 3.5rem; }
     .tagline { font-size: 1.4rem; }
     .hero-content { padding-top: 20%; }
@@ -963,10 +965,26 @@ footer {
     .slider-orbit { width: 400px; height: 400px; }
     .slider-item { width: 80px; height: 80px; margin-top: -40px; margin-left: -40px; }
     .active-item-info h3 { font-size: 1.8rem; }
+    .glass-container { flex-direction: column; padding: 40px; }
+    .map-container { min-width: 100%; height: 300px; }
 }
 
 @media (max-width: 768px) {
-    .hamburger { display: block; }
+    .section-header h2 { font-size: 2rem; }
+    .section-header p { font-size: 0.9rem; }
+    .brand-name { font-size: 2.8rem; }
+    .tagline { font-size: 1.1rem; }
+    .sub-tagline { font-size: 0.9rem; margin-bottom: 20px; }
+    
+    .circular-slider { height: 350px; }
+    .slider-orbit { width: 300px; height: 300px; }
+    .slider-item { width: 60px; height: 60px; margin-top: -30px; margin-left: -30px; }
+    .active-item-info h3 { font-size: 1.5rem; }
+    
+    .menu-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+    .reviews-3d-container { height: 400px; transform: scale(0.65); transform-origin: center center; }
+    
+    .hamburger { display: block; z-index: 1001; }
     .nav-menu {
         position: fixed;
         top: 0; right: -100%;
@@ -977,6 +995,8 @@ footer {
         justify-content: center;
         transition: right 0.4s ease;
         padding: 40px;
+        z-index: 1000;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.5);
     }
     .nav-menu.active { right: 0; }
     .nav-links {
@@ -990,4 +1010,27 @@ footer {
     .checkout-container { flex-direction: column; gap: 30px; }
     .cart-details { padding-right: 0; border-right: none; border-bottom: 1px solid var(--glass-border); padding-bottom: 30px; }
     .order-form-container { padding-left: 0; }
+}
+
+@media (max-width: 480px) {
+    section { padding: 60px 4%; }
+    .navbar { padding: 15px 4%; gap: 10px; }
+    .logo { font-size: 1.5rem; gap: 10px; }
+    .nav-icon { width: 35px; height: 35px; }
+    
+    .brand-name { font-size: 2.2rem; }
+    .tagline { font-size: 1rem; }
+    
+    .circular-slider { height: 300px; }
+    .slider-orbit { width: 220px; height: 220px; }
+    .slider-item { width: 50px; height: 50px; margin-top: -25px; margin-left: -25px; }
+    .active-item-info h3 { font-size: 1.3rem; }
+    
+    .menu-grid { grid-template-columns: 1fr; }
+    .reviews-3d-container { transform: scale(0.45); height: 300px; }
+    
+    .glass-container { padding: 20px; }
+    .footer-content { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+    .social-links { justify-content: center; }
+    .footer-links h3::after, .footer-newsletter h3::after { left: 50%; transform: translateX(-50%); }
 }

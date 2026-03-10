@@ -43,19 +43,19 @@ const cartTotalElement = document.getElementById('cart-total');
 function updateCartUI() {
     cartCount.innerText = cart.length;
     cartItemsContainer.innerHTML = '';
-    
+
     if (cart.length === 0) {
         cartItemsContainer.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
         cartTotalElement.innerText = `₹0`;
         return;
     }
-    
+
     let total = 0;
     cart.forEach((item, index) => {
         // Parse price removing the ₹ symbol
         const priceNum = parseInt(item.price.replace('₹', ''));
         total += priceNum;
-        
+
         const itemEl = document.createElement('div');
         itemEl.className = 'cart-item';
         itemEl.innerHTML = `
@@ -67,19 +67,19 @@ function updateCartUI() {
         `;
         cartItemsContainer.appendChild(itemEl);
     });
-    
+
     cartTotalElement.innerText = `₹${total}`;
 }
 
-window.addToCart = function(title, price) {
+window.addToCart = function (title, price) {
     cart.push({ title, price });
     updateCartUI();
-    
+
     // Add small feedback bounce
     gsap.fromTo('.cart-btn', { scale: 1.3 }, { scale: 1, duration: 0.3, ease: 'bounce.out' });
 };
 
-window.removeFromCart = function(index) {
+window.removeFromCart = function (index) {
     cart.splice(index, 1);
     updateCartUI();
 };
@@ -97,21 +97,21 @@ function createFloatingElements() {
     for (let i = 0; i < 15; i++) {
         const item = document.createElement('div');
         item.classList.add('floating-item');
-        
+
         // Random size between 20px and 60px
         const size = Math.random() * 40 + 20;
         item.style.width = `${size}px`;
         item.style.height = `${size}px`;
-        
+
         // Random image
         item.style.backgroundImage = `url(${floatingItems[Math.floor(Math.random() * floatingItems.length)]})`;
         item.style.opacity = Math.random() * 0.4 + 0.1;
         item.style.filter = `blur(${Math.random() * 3}px)`;
-        
+
         // Random position
         item.style.left = `${Math.random() * 100}%`;
         item.style.top = `${Math.random() * 100}%`;
-        
+
         parallaxContainer.appendChild(item);
 
         // GSAP Anti-gravity animation
@@ -132,7 +132,7 @@ createFloatingElements();
 document.addEventListener('mousemove', (e) => {
     const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
     const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
-    
+
     gsap.to('#hero-tilt', {
         rotationY: xAxis,
         rotationX: yAxis,
@@ -193,9 +193,9 @@ if (heroVid) {
                 brandName.innerText = heroData[currentVideoIndex].brand;
                 tagline.innerText = heroData[currentVideoIndex].tag;
                 subline.innerText = heroData[currentVideoIndex].sub;
-                
+
                 heroVid.play();
-                
+
                 // Animate text back in
                 gsap.to([brandName, tagline, subline, ctaGroup], {
                     opacity: 1,
@@ -213,9 +213,9 @@ if (heroVid) {
 function initHeroAnimations() {
     const tl = gsap.timeline();
     tl.to('.brand-name', { opacity: 1, y: 0, duration: 1, ease: 'power3.out' })
-      .to('.tagline', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, "-=0.6")
-      .to('.sub-tagline', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, "-=0.6")
-      .to('.cta-group', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, "-=0.6");
+        .to('.tagline', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, "-=0.6")
+        .to('.sub-tagline', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, "-=0.6")
+        .to('.cta-group', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, "-=0.6");
 }
 
 // 2. Best Seller Circular Slider Data & Logic
@@ -237,82 +237,84 @@ let activeIndex = 0;
 
 function initSlider() {
     const angleStep = 360 / sliderData.length;
-    
+
     sliderData.forEach((item, index) => {
         const angle = angleStep * index;
         const radian = angle * (Math.PI / 180);
-        
+
         const el = document.createElement('div');
         el.className = 'slider-item';
         if (index === 0) el.classList.add('active');
-        
+
         const img = document.createElement('img');
         img.src = item.img;
         el.appendChild(img);
-        
+
         // Position items on circle boundary based heavily on orbit element boundaries relative to the center
         const x = Math.cos(radian) * radius;
         const y = Math.sin(radian) * radius;
-        
+
         el.style.transform = `translate(${x}px, ${y}px)`;
         // Store original transform to reapply scaling without breaking positions
         el.dataset.angle = angle;
         el.dataset.origX = x;
         el.dataset.origY = y;
         el.dataset.index = index;
-        
+
         el.addEventListener('click', () => rotateToItem(index));
-        
+
         orbit.appendChild(el);
     });
-    
+
     updateSliderUI();
 }
 
 function rotateToItem(index) {
     if (activeIndex === index) return;
-    
+
     // We want to bring selected item to bottom (angle 90deg technically with sin/cos standard, but visually it depends)
     // Let's just simply rotate the orbit incrementally
     const angleStep = 360 / sliderData.length;
     const diff = index - activeIndex;
-    
+
     currentAngle -= diff * angleStep;
     orbit.style.transform = `translate(-50%, -50%) rotate(${currentAngle}deg)`;
-    
+
     // Reverse rotation on items to keep them upright
     const items = document.querySelectorAll('.slider-item');
     items.forEach(item => {
         item.style.transform = `translate(${item.dataset.origX}px, ${item.dataset.origY}px) rotate(${-currentAngle}deg)`;
         item.classList.remove('active');
     });
-    
+
     items[index].classList.add('active');
     // Ensure active gets scaled up
     items[index].style.transform = `translate(${items[index].dataset.origX}px, ${items[index].dataset.origY}px) rotate(${-currentAngle}deg) scale(2.5) translateZ(50px)`;
-    
+
     activeIndex = index;
     updateSliderUI();
 }
 
 function updateSliderUI() {
-    gsap.to('.active-item-info', { opacity: 0, duration: 0.3, onComplete: () => {
-        activeTitle.innerText = sliderData[activeIndex].title;
-        activePrice.innerText = sliderData[activeIndex].price;
-        activeDesc.innerText = sliderData[activeIndex].desc;
-        
-        // Remove old button if exists to avoid duplicates
-        const oldBtn = document.querySelector('.add-to-cart-slider');
-        if(oldBtn) oldBtn.remove();
-        
-        const addBtn = document.createElement('button');
-        addBtn.className = 'add-to-cart-slider';
-        addBtn.innerText = 'Add to Order';
-        addBtn.onclick = () => window.addToCart(sliderData[activeIndex].title, sliderData[activeIndex].price);
-        document.querySelector('.active-item-info').appendChild(addBtn);
-        
-        gsap.to('.active-item-info', { opacity: 1, duration: 0.3 });
-    }});
+    gsap.to('.active-item-info', {
+        opacity: 0, duration: 0.3, onComplete: () => {
+            activeTitle.innerText = sliderData[activeIndex].title;
+            activePrice.innerText = sliderData[activeIndex].price;
+            activeDesc.innerText = sliderData[activeIndex].desc;
+
+            // Remove old button if exists to avoid duplicates
+            const oldBtn = document.querySelector('.add-to-cart-slider');
+            if (oldBtn) oldBtn.remove();
+
+            const addBtn = document.createElement('button');
+            addBtn.className = 'add-to-cart-slider';
+            addBtn.innerText = 'Add to Order';
+            addBtn.onclick = () => window.addToCart(sliderData[activeIndex].title, sliderData[activeIndex].price);
+            document.querySelector('.active-item-info').appendChild(addBtn);
+
+            gsap.to('.active-item-info', { opacity: 1, duration: 0.3 });
+        }
+    });
 }
 
 initSlider();
@@ -326,19 +328,19 @@ setInterval(() => {
 
 // 3. Menu / Food Cards Logic
 const menuData = [
-    { title: "Chilli Cheese Toast", price: "₹200", cat: "fastfood", img: "fooditems/f6.jpeg", desc: "Spicy melted cheese on crispy artisan bread." },
-    { title: "Peri Peri Chicken Burger", price: "₹350", cat: "fastfood", img: "fooditems/f7.webp", desc: "Juicy chicken patty, spicy peri peri sauce, fresh lettuce." },
-    { title: "Blueberry Cheesecake", price: "₹280", cat: "dessert", img: "fooditems/f8.webp", desc: "New york style baked cheesecake with blueberry compote." },
-    { title: "Thai Green Curry", price: "₹450", cat: "fastfood", img: "fooditems/f1.webp", desc: "Served with fragrant Jasmine Rice." },
-    { title: "Orange Milkshake", price: "₹220", cat: "coffee", img: "fooditems/f2.webp", desc: "Creamy vanilla blended with fresh orange zest." },
-    { title: "Mexican Veg Pizza", price: "₹380", cat: "fastfood", img: "fooditems/f3.webp", desc: "Topped with jalapenos, corn, olives, and cheese." }
+    { title: "Cheese Toast", price: "₹200", cat: "fastfood", img: "fooditems/f4.webp", desc: "Spicy melted cheese on crispy artisan bread." },
+    { title: "Onion Rolls", price: "₹350", cat: "fastfood", img: "fooditems/f7.webp", desc: "Juicy chicken patty, spicy peri peri sauce, fresh lettuce." },
+    { title: "Green Chilli Chicken", price: "₹280", cat: "dessert", img: "fooditems/f8.webp", desc: "New york style baked cheesecake with blueberry compote." },
+    { title: "Chesse Balls", price: "₹450", cat: "fastfood", img: "fooditems/f1.webp", desc: "Served with fragrant Jasmine Rice." },
+    { title: "Spicy Omlet", price: "₹220", cat: "coffee", img: "fooditems/f2.webp", desc: "Creamy vanilla blended with fresh orange zest." },
+    { title: "Fish cutlet", price: "₹380", cat: "fastfood", img: "fooditems/f3.webp", desc: "Topped with jalapenos, corn, olives, and cheese." }
 ];
 
 const menuGrid = document.querySelector('.menu-grid');
 function renderMenu(filter = 'all') {
     menuGrid.innerHTML = '';
     const filtered = filter === 'all' ? menuData : menuData.filter(item => item.cat === filter);
-    
+
     filtered.forEach(item => {
         const card = document.createElement('div');
         card.className = 'menu-card';
@@ -366,7 +368,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
         renderMenu(e.target.dataset.filter);
-        
+
         // Animate cards entry
         gsap.from('.menu-card', {
             y: 50,
@@ -394,12 +396,12 @@ const galleryImages = [
 galleryImages.forEach(imgSrc => {
     const el = document.createElement('div');
     el.className = 'polaroid';
-    
+
     // Random initial tilts
     const rotation = Math.random() * 20 - 10;
     const yOffset = Math.random() * 40 - 20;
     el.style.transform = `rotate(${rotation}deg) translateY(${yOffset}px)`;
-    
+
     el.innerHTML = `<img src="${imgSrc}" loading="lazy" alt="Gallery Image">`;
     galleryTrack.appendChild(el);
 });
@@ -418,7 +420,7 @@ galleryContainer.addEventListener('mousedown', (e) => {
 galleryContainer.addEventListener('mouseleave', () => isDown = false);
 galleryContainer.addEventListener('mouseup', () => isDown = false);
 galleryContainer.addEventListener('mousemove', (e) => {
-    if(!isDown) return;
+    if (!isDown) return;
     e.preventDefault();
     const x = e.pageX - galleryContainer.offsetLeft;
     const walk = (x - startX) * 2; // scroll-fast
@@ -446,28 +448,28 @@ reviewsData.forEach((review, index) => {
     const angle = angleStep * index;
     const radian = angle * (Math.PI / 180);
     // slightly wider orbit to fill the emptiness in the center
-    const radX = 380; 
-    const radY = 150; 
-    
+    const radX = 380;
+    const radY = 150;
+
     const x = Math.cos(radian) * radX;
     const y = Math.sin(radian) * radY;
-    
+
     const bubble = document.createElement('div');
     bubble.className = 'review-bubble';
-    
+
     const zScale = (y + radY) / (2 * radY); // 0 to 1
     const finalScale = 0.7 + (zScale * 0.4); // slightly more dynamic scaling 
     const zIndex = Math.floor(zScale * 100);
-    
+
     // add small random offset so it doesn't look too perfectly circular
     const offsetX = Math.random() * 40 - 20;
     const offsetY = Math.random() * 40 - 20;
 
-    bubble.style.left = `calc(50% + ${x + offsetX}px - 140px)`; 
-    bubble.style.top = `calc(50% + ${y + offsetY}px - 75px)`; 
+    bubble.style.left = `calc(50% + ${x + offsetX}px - 140px)`;
+    bubble.style.top = `calc(50% + ${y + offsetY}px - 75px)`;
     bubble.style.transform = `scale(${finalScale})`;
     bubble.style.zIndex = zIndex;
-    
+
     // Slight float animation with different delays
     bubble.style.animation = `bounce ${3 + Math.random()}s infinite alternate ease-in-out`;
     bubble.style.animationDelay = `${Math.random()}s`;
@@ -483,7 +485,7 @@ reviewsData.forEach((review, index) => {
         <div class="review-text">"${review.text}"</div>
         <div class="reactions">☕ 😍</div>
     `;
-    
+
     reviewsOrbit.appendChild(bubble);
 });
 
@@ -523,22 +525,22 @@ const orderBtn = document.getElementById('place-order-btn');
 
 orderForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    
-    if(cart.length === 0) {
+
+    if (cart.length === 0) {
         alert("Please add some items to your cart first!");
         return;
     }
-    
+
     orderBtn.innerText = "Processing...";
     orderBtn.disabled = true;
-    
+
     setTimeout(() => {
         // Success Fake Response
         orderForm.style.display = 'none';
         successBox.style.display = 'block';
         cart = []; // empty cart
         updateCartUI();
-        
+
         // Reset after 5s
         setTimeout(() => {
             orderForm.reset();
