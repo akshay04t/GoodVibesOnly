@@ -19,6 +19,71 @@ window.addEventListener('scroll', () => {
     }
 });
 
+// Mobile Hamburger Menu
+const hamburger = document.getElementById('hamburger-menu');
+const navMenu = document.querySelector('.nav-menu');
+const navLinksItems = document.querySelectorAll('.nav-links a');
+
+hamburger.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+});
+
+navLinksItems.forEach(link => {
+    link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+    });
+});
+
+// Cart System logic
+let cart = [];
+const cartCount = document.getElementById('cart-count');
+const cartItemsContainer = document.getElementById('cart-items');
+const cartTotalElement = document.getElementById('cart-total');
+
+function updateCartUI() {
+    cartCount.innerText = cart.length;
+    cartItemsContainer.innerHTML = '';
+    
+    if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+        cartTotalElement.innerText = `₹0`;
+        return;
+    }
+    
+    let total = 0;
+    cart.forEach((item, index) => {
+        // Parse price removing the ₹ symbol
+        const priceNum = parseInt(item.price.replace('₹', ''));
+        total += priceNum;
+        
+        const itemEl = document.createElement('div');
+        itemEl.className = 'cart-item';
+        itemEl.innerHTML = `
+            <div class="cart-item-info">
+                <h4>${item.title}</h4>
+                <p>${item.price}</p>
+            </div>
+            <button class="remove-item" onclick="removeFromCart(${index})"><i class="fas fa-trash"></i></button>
+        `;
+        cartItemsContainer.appendChild(itemEl);
+    });
+    
+    cartTotalElement.innerText = `₹${total}`;
+}
+
+window.addToCart = function(title, price) {
+    cart.push({ title, price });
+    updateCartUI();
+    
+    // Add small feedback bounce
+    gsap.fromTo('.cart-btn', { scale: 1.3 }, { scale: 1, duration: 0.3, ease: 'bounce.out' });
+};
+
+window.removeFromCart = function(index) {
+    cart.splice(index, 1);
+    updateCartUI();
+};
+
 // Floating Anti-Gravity Elements generator
 const parallaxContainer = document.getElementById('parallax-container');
 const floatingItems = [
@@ -235,6 +300,17 @@ function updateSliderUI() {
         activeTitle.innerText = sliderData[activeIndex].title;
         activePrice.innerText = sliderData[activeIndex].price;
         activeDesc.innerText = sliderData[activeIndex].desc;
+        
+        // Remove old button if exists to avoid duplicates
+        const oldBtn = document.querySelector('.add-to-cart-slider');
+        if(oldBtn) oldBtn.remove();
+        
+        const addBtn = document.createElement('button');
+        addBtn.className = 'add-to-cart-slider';
+        addBtn.innerText = 'Add to Order';
+        addBtn.onclick = () => window.addToCart(sliderData[activeIndex].title, sliderData[activeIndex].price);
+        document.querySelector('.active-item-info').appendChild(addBtn);
+        
         gsap.to('.active-item-info', { opacity: 1, duration: 0.3 });
     }});
 }
@@ -276,6 +352,7 @@ function renderMenu(filter = 'all') {
                     <span class="card-price">${item.price}</span>
                 </div>
                 <p class="card-desc">${item.desc}</p>
+                <button class="add-to-cart" onclick="window.addToCart('${item.title.replace(/'/g, "\\'")}', '${item.price}')">Add to Order</button>
             </div>
         `;
         menuGrid.appendChild(card);
@@ -437,4 +514,38 @@ gsap.from('.glass-container', {
     opacity: 0,
     duration: 1.5,
     ease: "power3.out"
+});
+
+// Checkout Fake Form Submit
+const orderForm = document.getElementById('order-form');
+const successBox = document.getElementById('order-success');
+const orderBtn = document.getElementById('place-order-btn');
+
+orderForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    if(cart.length === 0) {
+        alert("Please add some items to your cart first!");
+        return;
+    }
+    
+    orderBtn.innerText = "Processing...";
+    orderBtn.disabled = true;
+    
+    setTimeout(() => {
+        // Success Fake Response
+        orderForm.style.display = 'none';
+        successBox.style.display = 'block';
+        cart = []; // empty cart
+        updateCartUI();
+        
+        // Reset after 5s
+        setTimeout(() => {
+            orderForm.reset();
+            orderBtn.innerText = "Place Order";
+            orderBtn.disabled = false;
+            successBox.style.display = 'none';
+            orderForm.style.display = 'flex';
+        }, 5000);
+    }, 1500);
 });

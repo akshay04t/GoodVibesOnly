@@ -19,13 +19,24 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="logo"><img src="gallery/g1.webp" class="nav-icon" alt="Logo"> Good Vibes<span>.</span></div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#bestsellers">Bestsellers</a></li>
-            <li><a href="#menu">Menu</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#location">Visit Us</a></li>
-        </ul>
+        <div class="hamburger" id="hamburger-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="nav-menu">
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#bestsellers">Bestsellers</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#location">Visit Us</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="cart-btn" onclick="document.getElementById('order').scrollIntoView();">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </button>
+            </div>
+        </div>
     </nav>
 
     <!-- 1. Landing Hero Section -->
@@ -163,6 +174,36 @@
             </div>
         </div>
         <!-- Coffee bean background texture via CSS -->
+    </section>
+
+    <!-- 8. Order / Cart Section -->
+    <section id="order" class="order-section">
+        <div class="section-header">
+            <h2>Your Order</h2>
+            <p>Ready for checkout</p>
+        </div>
+        <div class="glass-container checkout-container">
+            <div class="cart-details">
+                <div class="cart-items" id="cart-items">
+                    <p class="empty-cart">Your cart is empty.</p>
+                </div>
+            </div>
+            <div class="order-form-container">
+                <div class="cart-summary">
+                    <h3>Total: <span id="cart-total">₹0</span></h3>
+                </div>
+                <form id="order-form" class="order-form">
+                    <input type="text" id="order-name" placeholder="Your Name" required>
+                    <input type="text" id="table-number" placeholder="Table No. / Takeaway" required>
+                    <button type="submit" class="btn btn-primary w-100" id="place-order-btn">Place Order</button>
+                </form>
+                <div id="order-success" class="order-success">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Order Placed Successfully!</h3>
+                    <p>We are preparing your items.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- 7. Footer Section -->
