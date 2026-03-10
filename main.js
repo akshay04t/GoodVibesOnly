@@ -155,11 +155,11 @@ function initHeroAnimations() {
 
 // 2. Best Seller Circular Slider Data & Logic
 const sliderData = [
-    { title: "Espresso Tango", price: "₹250", desc: "A perfect blend of citrus and strong espresso.", img: "https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=400&auto=format&fit=crop" },
-    { title: "Cold Brew Storm", price: "₹280", desc: "Slow steeped for 24 hours, extra smooth.", img: "https://images.unsplash.com/photo-1517701550927-30cfcb64d5ed?q=80&w=400&auto=format&fit=crop" },
-    { title: "Caramel Latte", price: "₹220", desc: "Creamy whole milk, espresso, and rich caramel.", img: "https://images.unsplash.com/photo-1557006021-b85faa2bc5e2?q=80&w=400&auto=format&fit=crop" },
-    { title: "Mocha Frost", price: "₹260", desc: "Iced chocolatey goodness topped with foam.", img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=400&auto=format&fit=crop" },
-    { title: "Vanilla Iced Coffee", price: "₹200", desc: "Classic iced coffee with Madagascar vanilla.", img: "https://images.unsplash.com/photo-1461023058943-07cb1ce8db11?q=80&w=400&auto=format&fit=crop" }
+    { title: "Espresso Tango", price: "₹250", desc: "A perfect blend of citrus and strong espresso.", img: "fooditems/f1.webp" },
+    { title: "Cold Brew Storm", price: "₹280", desc: "Slow steeped for 24 hours, extra smooth.", img: "fooditems/f2.webp" },
+    { title: "Caramel Latte", price: "₹220", desc: "Creamy whole milk, espresso, and rich caramel.", img: "fooditems/f3.webp" },
+    { title: "Mocha Frost", price: "₹260", desc: "Iced chocolatey goodness topped with foam.", img: "fooditems/f4.webp" },
+    { title: "Vanilla Iced Coffee", price: "₹200", desc: "Classic iced coffee with Madagascar vanilla.", img: "fooditems/f5.webp" }
 ];
 
 const orbit = document.getElementById('slider-orbit');
@@ -250,12 +250,12 @@ setInterval(() => {
 
 // 3. Menu / Food Cards Logic
 const menuData = [
-    { title: "Chilli Cheese Toast", price: "₹200", cat: "fastfood", img: "https://images.unsplash.com/photo-1541580621-ea820e1766a5", desc: "Spicy melted cheese on crispy artisan bread." },
-    { title: "Peri Peri Chicken Burger", price: "₹350", cat: "fastfood", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd", desc: "Juicy chicken patty, spicy peri peri sauce, fresh lettuce." },
-    { title: "Blueberry Cheesecake", price: "₹280", cat: "dessert", img: "https://images.unsplash.com/photo-1533134242443-d4fdac3b71f4", desc: "New york style baked cheesecake with blueberry compote." },
-    { title: "Thai Green Curry", price: "₹450", cat: "fastfood", img: "https://images.unsplash.com/photo-1559314809-0d155014e29e", desc: "Served with fragrant Jasmine Rice." },
-    { title: "Orange Milkshake", price: "₹220", cat: "coffee", img: "https://images.unsplash.com/photo-1556881286-fc6915169721", desc: "Creamy vanilla blended with fresh orange zest." },
-    { title: "Mexican Veg Pizza", price: "₹380", cat: "fastfood", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38", desc: "Topped with jalapenos, corn, olives, and cheese." }
+    { title: "Chilli Cheese Toast", price: "₹200", cat: "fastfood", img: "fooditems/f6.jpeg", desc: "Spicy melted cheese on crispy artisan bread." },
+    { title: "Peri Peri Chicken Burger", price: "₹350", cat: "fastfood", img: "fooditems/f7.webp", desc: "Juicy chicken patty, spicy peri peri sauce, fresh lettuce." },
+    { title: "Blueberry Cheesecake", price: "₹280", cat: "dessert", img: "fooditems/f8.webp", desc: "New york style baked cheesecake with blueberry compote." },
+    { title: "Thai Green Curry", price: "₹450", cat: "fastfood", img: "fooditems/f1.webp", desc: "Served with fragrant Jasmine Rice." },
+    { title: "Orange Milkshake", price: "₹220", cat: "coffee", img: "fooditems/f2.webp", desc: "Creamy vanilla blended with fresh orange zest." },
+    { title: "Mexican Veg Pizza", price: "₹380", cat: "fastfood", img: "fooditems/f3.webp", desc: "Topped with jalapenos, corn, olives, and cheese." }
 ];
 
 const menuGrid = document.querySelector('.menu-grid');
@@ -268,7 +268,7 @@ function renderMenu(filter = 'all') {
         card.className = 'menu-card';
         card.innerHTML = `
             <div class="card-img-wrapper">
-                <img src="${item.img}?q=80&w=400&auto=format&fit=crop" loading="lazy" alt="${item.title}">
+                <img src="${item.img}" loading="lazy" alt="${item.title}">
             </div>
             <div class="card-info">
                 <div class="card-header">
@@ -304,11 +304,14 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 // 4. Unique Gallery Interaction
 const galleryTrack = document.getElementById('gallery-track');
 const galleryImages = [
-    "https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=600&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=600&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=600&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1507133750070-4cb503254c00?q=80&w=600&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1521017432531-fbd92d768814?q=80&w=600&auto=format&fit=crop",
+    "gallery/g1.webp",
+    "gallery/g2.jpeg",
+    "gallery/g3.webp",
+    "gallery/g4.webp",
+    "gallery/g5.jpeg",
+    "gallery/g6.webp",
+    "gallery/g7.webp",
+    "gallery/g8.webp"
 ];
 
 galleryImages.forEach(imgSrc => {
