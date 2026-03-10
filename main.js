@@ -83,6 +83,67 @@ document.addEventListener('mousemove', (e) => {
     });
 });
 
+// Hero Video Cycling Logic
+const heroVid = document.getElementById('hero-vid');
+const brandName = document.getElementById('hero-brand');
+const tagline = document.getElementById('hero-tagline');
+const subline = document.getElementById('hero-subline');
+const ctaGroup = document.getElementById('hero-cta');
+
+const heroData = [
+    {
+        src: "coffee.mp4",
+        brand: "Good Vibes Only",
+        tag: "Why drink ORDINARY when you have the EXTRAORDINARY",
+        sub: "Takes two fruits to tango — juices blended into our house espresso to give a drink with a kick."
+    },
+    {
+        src: "coffee2.mp4",
+        brand: "Pure Aesthetics",
+        tag: "Crafted for the visually obsessed",
+        sub: "Every pour is a performance. Experience coffee that looks as good as it tastes."
+    },
+    {
+        src: "coffee3.mp4",
+        brand: "Liquid Gold",
+        tag: "The finest beans, roasted to perfection",
+        sub: "Sourced globally, roasted locally. A true cinematic coffee journey."
+    }
+];
+
+let currentVideoIndex = 0;
+
+if (heroVid) {
+    heroVid.addEventListener('ended', () => {
+        // Animate text out
+        gsap.to([brandName, tagline, subline, ctaGroup], {
+            opacity: 0,
+            y: 30,
+            duration: 0.5,
+            stagger: 0.1,
+            onComplete: () => {
+                // Update to next video and text
+                currentVideoIndex = (currentVideoIndex + 1) % heroData.length;
+                heroVid.src = heroData[currentVideoIndex].src;
+                brandName.innerText = heroData[currentVideoIndex].brand;
+                tagline.innerText = heroData[currentVideoIndex].tag;
+                subline.innerText = heroData[currentVideoIndex].sub;
+                
+                heroVid.play();
+                
+                // Animate text back in
+                gsap.to([brandName, tagline, subline, ctaGroup], {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: 'power3.out'
+                });
+            }
+        });
+    });
+}
+
 // Initial Hero Animations
 function initHeroAnimations() {
     const tl = gsap.timeline();
@@ -189,12 +250,12 @@ setInterval(() => {
 
 // 3. Menu / Food Cards Logic
 const menuData = [
-    { title: "Chilli Cheese Toast", price: "₹200", cat: "fastfood", img: "https://images.unsplash.com/photo-1541580621-ea820e1766a5?q=80&w=400&auto=format&fit=crop", desc: "Spicy melted cheese on crispy artisan bread." },
-    { title: "Peri Peri Chicken Burger", price: "₹350", cat: "fastfood", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=400&auto=format&fit=crop", desc: "Juicy chicken patty, spicy peri peri sauce, fresh lettuce." },
-    { title: "Blueberry Cheesecake", price: "₹280", cat: "dessert", img: "https://images.unsplash.com/photo-1533134242443-d4fdac3b71f4?q=80&w=400&auto=format&fit=crop", desc: "New york style baked cheesecake with blueberry compote." },
-    { title: "Thai Green Curry", price: "₹450", cat: "fastfood", img: "https://images.unsplash.com/photo-1559314809-0d155014e29e?q=80&w=400&auto=format&fit=crop", desc: "Served with fragrant Jasmine Rice." },
-    { title: "Orange Milkshake", price: "₹220", cat: "coffee", img: "https://images.unsplash.com/photo-1556881286-fc6915169721?q=80&w=400&auto=format&fit=crop", desc: "Creamy vanilla blended with fresh orange zest." },
-    { title: "Mexican Veg Pizza", price: "₹380", cat: "fastfood", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=400&auto=format&fit=crop", desc: "Topped with jalapenos, corn, olives, and cheese." }
+    { title: "Chilli Cheese Toast", price: "₹200", cat: "fastfood", img: "https://images.unsplash.com/photo-1541580621-ea820e1766a5", desc: "Spicy melted cheese on crispy artisan bread." },
+    { title: "Peri Peri Chicken Burger", price: "₹350", cat: "fastfood", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd", desc: "Juicy chicken patty, spicy peri peri sauce, fresh lettuce." },
+    { title: "Blueberry Cheesecake", price: "₹280", cat: "dessert", img: "https://images.unsplash.com/photo-1533134242443-d4fdac3b71f4", desc: "New york style baked cheesecake with blueberry compote." },
+    { title: "Thai Green Curry", price: "₹450", cat: "fastfood", img: "https://images.unsplash.com/photo-1559314809-0d155014e29e", desc: "Served with fragrant Jasmine Rice." },
+    { title: "Orange Milkshake", price: "₹220", cat: "coffee", img: "https://images.unsplash.com/photo-1556881286-fc6915169721", desc: "Creamy vanilla blended with fresh orange zest." },
+    { title: "Mexican Veg Pizza", price: "₹380", cat: "fastfood", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38", desc: "Topped with jalapenos, corn, olives, and cheese." }
 ];
 
 const menuGrid = document.querySelector('.menu-grid');
@@ -207,7 +268,7 @@ function renderMenu(filter = 'all') {
         card.className = 'menu-card';
         card.innerHTML = `
             <div class="card-img-wrapper">
-                <img src="${item.img}" loading="lazy" alt="${item.title}">
+                <img src="${item.img}?q=80&w=400&auto=format&fit=crop" loading="lazy" alt="${item.title}">
             </div>
             <div class="card-info">
                 <div class="card-header">
@@ -215,7 +276,6 @@ function renderMenu(filter = 'all') {
                     <span class="card-price">${item.price}</span>
                 </div>
                 <p class="card-desc">${item.desc}</p>
-                <button class="add-to-cart">Add to Order</button>
             </div>
         `;
         menuGrid.appendChild(card);
@@ -286,22 +346,28 @@ galleryContainer.addEventListener('mousemove', (e) => {
 });
 
 
-// 5. Reviews Section (3D Orbit)
+// 5. Reviews Section (3D Orbit without center cup)
 const reviewsData = [
     { name: "Rahul S.", text: "Best chilli cheese toast in Manikonda! Great vibe.", stars: "★★★★★", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
     { name: "Priya M.", text: "Love the blueberry cheesecake and the cozy atmosphere.", stars: "★★★★☆", avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
     { name: "Arjun K.", text: "Perfect place to chill. Their Orange Milkshake is extra-ordinary!", stars: "★★★★★", avatar: "https://randomuser.me/api/portraits/men/67.jpg" },
-    { name: "Sneha R.", text: "Beautiful interiors and great coffee blends.", stars: "★★★★★", avatar: "https://randomuser.me/api/portraits/women/12.jpg" }
+    { name: "Sneha R.", text: "Beautiful interiors and great coffee blends.", stars: "★★★★★", avatar: "https://randomuser.me/api/portraits/women/12.jpg" },
+    { name: "Vikram D.", text: "The anti-gravity vibe is real! Awesome espresso.", stars: "★★★★★", avatar: "https://randomuser.me/api/portraits/men/45.jpg" },
+    { name: "Ananya T.", text: "Good Vibes Only lives up to its name. Phenomenal service.", stars: "★★★★★", avatar: "https://randomuser.me/api/portraits/women/23.jpg" },
+    { name: "Rohan P.", text: "Thai green curry was surprisingly authentic and delicious.", stars: "★★★★☆", avatar: "https://randomuser.me/api/portraits/men/82.jpg" },
+    { name: "Meera V.", text: "My new favorite work cafe. Super fast wifi and great snacks.", stars: "★★★★★", avatar: "https://randomuser.me/api/portraits/women/35.jpg" }
 ];
 
 const reviewsOrbit = document.querySelector('.reviews-orbit');
 
 reviewsData.forEach((review, index) => {
+    // distribute evenly around circle
     const angleStep = 360 / reviewsData.length;
     const angle = angleStep * index;
     const radian = angle * (Math.PI / 180);
-    const radX = 350; // Orbit width
-    const radY = 100; // Orbit height for 3D perspective effect
+    // slightly wider orbit to fill the emptiness in the center
+    const radX = 380; 
+    const radY = 150; 
     
     const x = Math.cos(radian) * radX;
     const y = Math.sin(radian) * radY;
@@ -309,13 +375,16 @@ reviewsData.forEach((review, index) => {
     const bubble = document.createElement('div');
     bubble.className = 'review-bubble';
     
-    // Adjust depth (z-index and scale based on y position in ellipse)
     const zScale = (y + radY) / (2 * radY); // 0 to 1
-    const finalScale = 0.7 + (zScale * 0.3); // 0.7 to 1.0
+    const finalScale = 0.7 + (zScale * 0.4); // slightly more dynamic scaling 
     const zIndex = Math.floor(zScale * 100);
     
-    bubble.style.left = `calc(50% + ${x}px - 140px)`; // 140 is half width
-    bubble.style.top = `calc(50% + ${y}px - 75px)`; // approx half height
+    // add small random offset so it doesn't look too perfectly circular
+    const offsetX = Math.random() * 40 - 20;
+    const offsetY = Math.random() * 40 - 20;
+
+    bubble.style.left = `calc(50% + ${x + offsetX}px - 140px)`; 
+    bubble.style.top = `calc(50% + ${y + offsetY}px - 75px)`; 
     bubble.style.transform = `scale(${finalScale})`;
     bubble.style.zIndex = zIndex;
     

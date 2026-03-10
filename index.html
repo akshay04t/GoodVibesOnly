@@ -25,14 +25,11 @@
             <li><a href="#gallery">Gallery</a></li>
             <li><a href="#location">Visit Us</a></li>
         </ul>
-        <div class="nav-actions">
-            <button class="cart-btn"><i class="fas fa-shopping-cart"></i></button>
-        </div>
     </nav>
 
     <!-- 1. Landing Hero Section -->
     <section id="home" class="hero">
-        <video autoplay muted loop playsinline class="hero-video">
+        <video id="hero-vid" autoplay muted playsinline class="hero-video">
             <source src="coffee.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
@@ -43,10 +40,10 @@
         </div>
 
         <div class="hero-content" id="hero-tilt">
-            <h1 class="brand-name">Good Vibes Only</h1>
-            <h2 class="tagline">Why drink ORDINARY when you have the EXTRAORDINARY</h2>
-            <p class="sub-tagline">Takes two fruits to tango — juices blended into our house espresso to give a drink with a kick.</p>
-            <div class="cta-group">
+            <h1 class="brand-name" id="hero-brand">Good Vibes Only</h1>
+            <h2 class="tagline" id="hero-tagline">Why drink ORDINARY when you have the EXTRAORDINARY</h2>
+            <p class="sub-tagline" id="hero-subline">Takes two fruits to tango — juices blended into our house espresso to give a drink with a kick.</p>
+            <div class="cta-group" id="hero-cta">
                 <a href="#menu" class="btn btn-primary">Explore Menu</a>
                 <a href="#order" class="btn btn-outline">Order Now</a>
             </div>
@@ -124,10 +121,6 @@
         </div>
         
         <div class="reviews-3d-container">
-            <div class="coffee-cup-center">
-                <div class="steam"></div>
-                <img src="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=400&auto=format&fit=crop" alt="Coffee Cup">
-            </div>
             <div class="reviews-orbit">
                 <!-- Review bubbles injected via JS -->
             </div>
@@ -164,13 +157,7 @@
             </div>
             
             <div class="map-container">
-                <div class="map-placeholder">
-                    <div class="animated-pin">
-                        <i class="fas fa-map-pin"></i>
-                    </div>
-                    <!-- Using a static map image for demo, could embed iframe -->
-                    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=600&auto=format&fit=crop" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;" alt="Map">
-                </div>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.9189441113854!2d78.37535567500589!3d17.41566838347631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb954257125fff%3A0xe104c86da4bd8b72!2sGood%20Vibes%20Only%20Cafe!5e0!3m2!1sen!2sin!4v1705603417643!5m2!1sen!2sin" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
         <!-- Coffee bean background texture via CSS -->
@@ -197,15 +184,6 @@
                     <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#location">Locations</a></li>
                 </ul>
-            </div>
-            
-            <div class="footer-newsletter">
-                <h3>Stay Tuned</h3>
-                <p>Subscribe for exclusive updates and offers.</p>
-                <form class="newsletter-form">
-                    <input type="email" placeholder="Your email address">
-                    <button type="submit"><i class="fas fa-arrow-right"></i></button>
-                </form>
             </div>
         </div>
         <div class="footer-bottom">
